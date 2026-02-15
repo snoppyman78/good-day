@@ -1,0 +1,29 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cool Notes</title>
+  <style>
+    body{font-family:Arial,sans-serif;max-width:700px;margin:40px auto;padding:0 16px}
+    textarea{width:100%;height:140px}
+    button{margin-top:10px;padding:8px 14px}
+    ul{padding-left:18px}
+  </style>
+</head>
+<body>
+  <h1>Cool Notes 📝</h1>
+  <p>Save quick notes in your browser.</p>
+  <textarea id="note" placeholder="Type something..."></textarea><br/>
+  <button id="add">Add Note</button>
+  <ul id="list"></ul>
+  <script>
+    const key='cool_notes_v1';
+    const list=document.getElementById('list');
+    const note=document.getElementById('note');
+    const load=()=>{const arr=JSON.parse(localStorage.getItem(key)||'[]');list.innerHTML='';arr.forEach((n,i)=>{const li=document.createElement('li');li.textContent=n+' ';const b=document.createElement('button');b.textContent='x';b.onclick=()=>{arr.splice(i,1);localStorage.setItem(key,JSON.stringify(arr));load();};li.appendChild(b);list.appendChild(li);});};
+    document.getElementById('add').onclick=()=>{const v=note.value.trim();if(!v)return;const arr=JSON.parse(localStorage.getItem(key)||'[]');arr.unshift(v);localStorage.setItem(key,JSON.stringify(arr));note.value='';load();};
+    load();
+  </script>
+</body>
+</html>
